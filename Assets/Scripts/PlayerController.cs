@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public Vector3 limitMax, limitMin;
     Vector3 temp;
 
-    public GameObject prefabBullet;
+    public GameObject[] prefabBullet;
     float time;
     public float speed;
 
@@ -19,25 +19,40 @@ public class PlayerController : MonoBehaviour
     Animator animator;
     bool onDead;
 
+    // 아이템
+    public int Damage, Boom;
+    // 폭탄
+    public GameObject BoomMissile;
+    public int BoomPosY;
+    public int BoomDamage;
+
     private void Start()
     {
-        time = 0;
+        time = 0;  // 죽을때
         fireDelay = 0;
-        speed = 10.0f;
+        speed = 10.0f;  // 이동속도
 
         animator = GetComponent<Animator>();
         onDead = false;
+
+        // 아이템
+        Damage = 1;
+        Boom = 0;
+        // 폭탄
+        BoomPosY = -30;
+        BoomDamage = 30;
 
     }
 
     void Update()
     {
-        Move();
-        FireBullet();
-        OnDeadCheck();
+        Move();  // 키보드 입력으로 움직이기, 화면 밖으로 못 나가게
+        FireBullet();  // 0.3초마다 prefabBullet 발사, log "Fire"
+        OnDeadCheck();  // onDead가 True면 0.6초 뒤 Destroy
+        FireBoom();  // Space 누르면 Boom!!
     }
 
-    public void Move()
+    public void Move()  // 키보드 입력으로 움직이기, 화면 밖으로 못 나가게
     {
         // 키보드 입력
         x = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
@@ -73,21 +88,33 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void FireBullet()
+    public void FireBullet()  // 0.3초마다 prefabBullet 발사
     {
         fireDelay += Time.deltaTime;
-        Debug.Log("Fire " + fireDelay);
         if (fireDelay > 0.3f)
         {
             // object 생성 : Instantiate(생성할 대상, 위치, ?)
-            Instantiate(prefabBullet, transform.position, Quaternion.identity);
+            Instantiate(prefabBullet[Damage-1], transform.position, Quaternion.identity);
             fireDelay -= 0.3f;
+        }
+    }  
+
+    public void FireBoom()  // Space 누르면 Boom!! BoomMissile 생성
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if(Boom >= 1)
+            {
+                GameObject go = Instantiate(BoomMissile, transform.position, Quaternion.identity);  // 출발 위치는 플레이어 x위치에서 아랫쪽
+                go.transform.position = new Vector3(transform.position.x, BoomPosY, transform.position.z);
+                Boom--;
+                UIManager.instance.BoomCheck(Boom);
+            }
         }
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmos()  // 경계선 시각화
     {
-        // 경계선 시각화
         Gizmos.color = Color.red;
         Gizmos.DrawLine(limitMin, new Vector2(limitMax.x, limitMin.y));
         Gizmos.DrawLine(limitMin, new Vector2(limitMin.x, limitMax.y));
@@ -96,7 +123,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)  // 충돌시 (Tag: enemyBullet), 죽는 모션 (animator State -> 1), onDead True
     {
         if (collision.CompareTag("enemyBullet"))
         {
@@ -105,7 +132,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnDeadCheck()
+    private void OnDeadCheck()  // onDead가 True면 0.6초 뒤 Destroy
     {
         if (onDead)
         {

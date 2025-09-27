@@ -6,21 +6,19 @@ public class BulletController : MonoBehaviour
     public float speed;
     float time;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         speed = 30.0f;
-        time = 0;
+        time = 0;  // 죽을때
     }
 
-    // Update is called once per frame
     void Update()
     {
-        FireBullet();
-        DestroyBullet();
+        FireBullet();  // 총알 발사
+        DestroyBullet();  // 5초 뒤 Destroy
     }
 
-    private void DestroyBullet()
+    private void DestroyBullet()  // 5초 뒤 Destroy
     {
         time += Time.deltaTime;
         if (time > 5.0f)
@@ -29,17 +27,18 @@ public class BulletController : MonoBehaviour
         }
     }
 
-    private void FireBullet()
+    private void FireBullet()  // 총알 발사
     {
         transform.Translate(Vector3.up * speed * Time.deltaTime);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)  // 충돌시 (Tag: enemy or ItemDropEnemy), Destroy
     {
-        if (collision.CompareTag("enemy"))
+        if (collision.CompareTag("enemy") || collision.CompareTag("ItemDropEnemy"))
         {
             Destroy(gameObject);
 
         }
     }
+
 }

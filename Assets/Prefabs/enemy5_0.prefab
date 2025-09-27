@@ -202,3 +202,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyController
   enemyBullet: {fileID: 564533480327525511, guid: 831132c178b98ef40820fc61b16f053f, type: 3}
+  item: []
