@@ -9,7 +9,7 @@ public class ItemController : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
+        //player = GameObject.FindGameObjectWithTag("Player");
         speed = 10.0f;  // 이동 속도
         score = 100;
     }
@@ -32,5 +32,9 @@ public class ItemController : MonoBehaviour
         }
     }
 
-    protected virtual void ItemGain() { }  // virtual : 가상클래스 만들어 놓고, 자식 클래스에서 구현할게!
+    protected virtual void ItemGain()  // virtual : 가상클래스 만들어 놓고, 자식 클래스에서 구현할게!
+    {
+        if (player == null)
+            player = GameObject.FindGameObjectWithTag("Player");
+    }
 }

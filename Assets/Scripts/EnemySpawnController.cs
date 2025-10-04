@@ -12,7 +12,7 @@ public class EnemySpawnController : MonoBehaviour
     int enemyCount;  // enemyGameObject 생성 숫자
     int[] randomCount;  // 랜덤 숫자 변수
     int wave;  // 웨이브
-    GameObject player;  // 플레이어
+    //GameObject player;  // 플레이어
 
     
     void Start()
@@ -22,7 +22,7 @@ public class EnemySpawnController : MonoBehaviour
         enemyCount = 5;  // 한번에 생성할 enemyGameObject 수
         randomCount = new int[enemyCount];  // enemyGameObject 랜덤 위치 (enemySpawns) 설정
         wave = 0;
-        player = GameObject.FindGameObjectWithTag("Player");
+        //player = GameObject.FindGameObjectWithTag("Player");
     }
 
     void Update()
@@ -52,8 +52,12 @@ public class EnemySpawnController : MonoBehaviour
 
     void EnemyCreate()  // player가 살아있다면, enemyCount만큼의 enemyGameObject 생성
     {
-        if (player == null)
+        //if (player == null)  // 원래는 player가 죽으면 생성 중단
+        //    return;
+
+        if (GameManager.instance.lifeCount < 0)  // 변경되어 플레이어 life가 없으면 생성 중단
             return;
+
         for (int i = 0; i < enemyCount; i++)
         {
             int tmpCnt = UnityEngine.Random.Range(0, enemyGameObject.Length);  // 랜덤 적 선택

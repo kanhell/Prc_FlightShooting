@@ -9,7 +9,9 @@ public class UIManager : MonoBehaviour
     // 점수
     public Text scoreText;
     public int score;
-    
+    //라이프
+    public GameObject[] ui_Lifes;
+
     private void Awake()  // start() 전에 실행됨
     {
         if (instance == null)
@@ -46,6 +48,17 @@ public class UIManager : MonoBehaviour
         score += _score;
         scoreText.text = score.ToString();
 
+    }
+
+    public void LifeCheck(int lifeCount)  // life 갯수만큼 ui_Lifes 활성화하기
+    {
+        for (int i = 0; i < ui_Lifes.Length; i++)
+        {
+            if (i + 1 <= lifeCount)
+                ui_Lifes[i].SetActive(true);
+            else
+                ui_Lifes[i].SetActive(false);
+        }
     }
 
 }

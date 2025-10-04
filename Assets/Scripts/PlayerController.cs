@@ -141,6 +141,9 @@ public class PlayerController : MonoBehaviour
         if (time > 0.6f)
         {
             Destroy(gameObject);
+            GameManager.instance.PlayerLifeRemove();
+            GameManager.instance.CreatePlayer();
+            UIManager.instance.LifeCheck(GameManager.instance.lifeCount);
         }
     }
 
