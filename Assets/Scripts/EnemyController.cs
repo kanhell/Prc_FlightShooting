@@ -6,7 +6,7 @@ public class EnemyController : MonoBehaviour
 {
     public GameObject enemyBullet;
     GameObject player;  // player 오브젝트
-    PlayerController playerController;  // playerController 스크립드
+    PlayerController playerController;  // playerController 스크립트
     float fireDelay;
 
     Animator animator;
