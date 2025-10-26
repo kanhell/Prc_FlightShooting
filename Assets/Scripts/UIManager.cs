@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +12,11 @@ public class UIManager : MonoBehaviour
     public int score;
     //라이프
     public GameObject[] ui_Lifes;
+    // 암막
+    public Image blackOut_Curtain;
+    float blackOut_Curtain_value;  // 불투명도값
+    float blackOut_Curtain_speed;
+
 
     private void Awake()  // start() 전에 실행됨
     {
@@ -28,7 +34,16 @@ public class UIManager : MonoBehaviour
     void Start()
     {
         score = 0;
+        blackOut_Curtain_value = 1.0f;
+        blackOut_Curtain_speed = 0.5f;
     }
+
+    private void Update()
+    {
+        if(blackOut_Curtain_value > 0)
+            HideBlackOut_Curtain();
+    }
+
 
     public void BoomCheck(int boomCount)  // boom 갯수만큼 ui_Booms 활성화하기
     {
@@ -61,4 +76,9 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void HideBlackOut_Curtain()
+    {
+        blackOut_Curtain_value -= Time.deltaTime * blackOut_Curtain_speed;
+        blackOut_Curtain.color = new Color(0.0f, 0.0f, 0.0f, blackOut_Curtain_value);
+    }
 }
