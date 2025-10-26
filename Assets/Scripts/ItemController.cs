@@ -36,5 +36,6 @@ public class ItemController : MonoBehaviour
     {
         if (player == null)
             player = GameObject.FindGameObjectWithTag("Player");
+        SoundManager.instance.itemGainSound.Play();
     }
 }

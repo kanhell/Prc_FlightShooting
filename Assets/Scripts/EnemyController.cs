@@ -100,6 +100,7 @@ public class EnemyController : MonoBehaviour
         if (gameObject.tag != "Untagged")
         {
             UIManager.instance.ScoreAdd(score);
+            SoundManager.instance.enemyDeadSound.Play();
         }
         gameObject.tag = "Untagged";  // 파괴애니메이션 중에는 총알이 닿아도 총알이 사라지지 않도록 태그를 Untagged로
     }
