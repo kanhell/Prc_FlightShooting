@@ -47,4 +47,10 @@ public class GameManager : MonoBehaviour
     {
         lifeCount--;
     }
+
+    public void GameOverCheck()
+    {
+        if(lifeCount < 0)
+            UIManager.instance.GameOver();
+    }
 }
