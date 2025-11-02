@@ -7,13 +7,11 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager instance;
     public GameObject[] ui_Booms;
-
     // 점수
     public Text scoreText;
     public Text highScoreText;
     public int score;
     public int highScore;
-
     //라이프
     public GameObject[] ui_Lifes;
     // 암막
@@ -22,6 +20,15 @@ public class UIManager : MonoBehaviour
     float blackOut_Curtain_speed;
     // 게임오버
     public Image gameOverImage;
+    // 보스
+    public Image hpbarFrame;
+    public Image hpbar1;
+    public Image hpbar2;
+    public float MaxHp1;
+    public float MaxHp2;
+    public BossController bossController;
+    public bool isBossSpawn;
+
 
 
 
@@ -44,12 +51,22 @@ public class UIManager : MonoBehaviour
         highScore = PlayerPrefs.GetInt("HighScore", 0);
         blackOut_Curtain_value = 1.0f;
         blackOut_Curtain_speed = 0.5f;
+
+        isBossSpawn = false;
     }
 
     private void Update()
     {
         if(blackOut_Curtain_value > 0)
             HideBlackOut_Curtain();
+        if (isBossSpawn)
+            BossHpBarCheck();
+        if(isBossSpawn == false)
+        {
+            hpbarFrame.gameObject.SetActive(false);
+            hpbar1.gameObject.SetActive(false);
+            hpbar2.gameObject.SetActive(false);
+        }
     }
 
 
@@ -108,5 +125,15 @@ public class UIManager : MonoBehaviour
         Destroy(UIManager.instance.gameObject);
         Destroy(GameManager.instance.gameObject);
         Destroy(SoundManager.instance.gameObject);
+    }
+
+    public void BossHpBarCheck()
+    {
+        hpbarFrame.gameObject.SetActive(true);
+        hpbar1.gameObject.SetActive(true);
+        hpbar2.gameObject.SetActive(true);
+
+        hpbar1.fillAmount = bossController.hp1 / MaxHp1;
+        hpbar2.fillAmount = bossController.hp2 / MaxHp2;
     }
 }

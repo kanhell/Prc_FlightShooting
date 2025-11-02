@@ -13,6 +13,9 @@ public class EnemySpawnController : MonoBehaviour
     int[] randomCount;  // 랜덤 숫자 변수
     int wave;  // 웨이브
     //GameObject player;  // 플레이어
+    // 보스관련
+    bool bossCreate;
+    public GameObject bossGameObject;
 
     
     void Start()
@@ -23,11 +26,15 @@ public class EnemySpawnController : MonoBehaviour
         randomCount = new int[enemyCount];  // enemyGameObject 랜덤 위치 (enemySpawns) 설정
         wave = 0;
         //player = GameObject.FindGameObjectWithTag("Player");
+        bossCreate = false;
     }
 
     void Update()
     {
         Timer();  // respawnTime마다 enemyCount만큼의 enemyGameObject 생성, wave++
+        // 보스 생성
+        if (wave >= 5 && bossCreate == false)
+            BossCreate();
     }
 
     void Timer()  // respawnTime마다 enemyCount만큼의 enemyGameObject 생성, wave++
@@ -69,4 +76,19 @@ public class EnemySpawnController : MonoBehaviour
 
         }
     }
+
+    void BossCreate()
+    {
+        bossCreate = true;
+        GameObject tmp = GameObject.Instantiate(bossGameObject);
+        int randomCount = UnityEngine.Random.Range(0, 9);
+        tmp.transform.position = enemySpawns[randomCount].position;
+        BossController bossController = tmp.GetComponent<BossController>();
+
+        UIManager.instance.isBossSpawn = true;
+        UIManager.instance.MaxHp1 = bossController.hp1;
+        UIManager.instance.MaxHp2 = bossController.hp2;
+        UIManager.instance.bossController = bossController;
+    }
+
 }
