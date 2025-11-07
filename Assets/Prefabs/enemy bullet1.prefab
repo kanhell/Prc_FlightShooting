@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1802694083187426378}
   - component: {fileID: -3797674113436175991}
   - component: {fileID: 9135433604087872050}
+  - component: {fileID: 4945251946135433578}
   m_Layer: 0
   m_Name: enemy bullet1
   m_TagString: enemyBullet
@@ -156,3 +157,17 @@ CapsuleCollider2D:
   m_Offset: {x: -0.000000059604645, y: -0.03250277}
   m_Size: {x: 1.4431132, y: 1.5081189}
   m_Direction: 0
+--- !u!114 &4945251946135433578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7334736568520646869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d2b6493baf5ccaf44a6d69a9693007f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyBulletController
+  moveSpeed: 0
+  rotateSpeed: 0
